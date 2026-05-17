@@ -48,7 +48,7 @@
     /* ============================================================
        LAYOUT WRAPPER
     ============================================================ */
-    .site { width: 100%; border-left: none; border-right: none; min-height: 100vh; }
+    .site { max-width: 1440px; margin: 0 auto; border-left: 0.5px solid var(--rule); border-right: 0.5px solid var(--rule); min-height: 100vh; }
 
     /* ============================================================
        NAV
@@ -410,8 +410,8 @@
       border-color: rgba(40,100,60,0.2);
     }
     .cal-day.marked-sport {
-      background: rgba(50,80,160,0.08); color: rgba(40,70,150,0.95);
-      border-color: rgba(50,80,160,0.18);
+      background: rgba(50,80,160,0.14); color: rgba(35,60,140,1);
+      border-color: rgba(50,80,160,0.28);
     }
     .cal-day.marked-multi {
       background: linear-gradient(135deg, rgba(139,94,60,0.13) 33%, rgba(40,100,60,0.10) 33% 66%, rgba(50,80,160,0.08) 66%);
@@ -937,7 +937,7 @@
       const k = dayKey(y, m, d);
       if (!data[k]) data[k] = {};
       data[k][mode] = !data[k][mode];
-      if (!data[k].gym && !data[k].football) delete data[k];
+      if (!data[k].gym && !data[k].football && !data[k].sport) delete data[k];
       saveData();
       renderCal();
     }
