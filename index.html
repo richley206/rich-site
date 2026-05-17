@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Richley</title>
+  <meta name="description" content="Richley — Sydney. Tracking what I read, watch, train toward, and make.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Instrument+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       TOKENS
+    ============================================================ */
+    :root {
+      --bg:      #111110;
+      --bg2:     #161614;
+      --bg3:     #1c1c1a;
+      --bg4:     #202020;
+      --rule:    rgba(255,255,250,0.07);
+      --ink:     #f0ede6;
+      --ink2:    rgba(240,237,230,0.50);
+      --ink3:    rgba(240,237,230,0.22);
+      --ink4:    rgba(240,237,230,0.10);
+      --accent:  #c9a96e;
+      --serif:   'Playfair Display', Georgia, serif;
+      --sans:    'Instrument Sans', sans-serif;
+    }
+
+    /* ============================================================
+       RESET + BASE
+    ============================================================ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { background: var(--bg); color: var(--ink); font-family: var(--sans); font-weight: 300; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    hr { border: none; border-top: 0.5px solid var(--rule); }
+
+    /* ============================================================
+       GRAIN OVERLAY
+    ============================================================ */
+    .grain {
+      position: fixed; inset: 0; pointer-events: none; z-index: 100; opacity: 0.075;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 128px 128px;
+    }
+
+    /* ============================================================
+       LAYOUT WRAPPER
+    ============================================================ */
+    .site { max-width: 1200px; margin: 0 auto; border-left: 0.5px solid var(--rule); border-right: 0.5px solid var(--rule); min-height: 100vh; }
+
+    /* ============================================================
+       NAV
+    ============================================================ */
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 36px;
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(17,17,16,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .n-name {
+      font-family: var(--serif); font-size: 16px; font-weight: 400; font-style: italic;
+      color: var(--ink); letter-spacing: 0.01em;
+    }
+    .n-links { display: flex; gap: 30px; }
+    .n-links a {
+      font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink3); font-weight: 400; transition: color 0.2s;
+    }
+    .n-links a:hover { color: var(--ink); }
+
+    /* ============================================================
+       CURRENTLY STRIP
+    ============================================================ */
+    .currently { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .ci {
+      padding: 10px 20px 10px 36px; border-right: 0.5px solid var(--rule);
+    }
+    .ci:not(:first-child) { padding-left: 20px; }
+    .ci:last-child { border-right: none; }
+    .cl {
+      font-size: 8px; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 3px;
+    }
+    .cv { font-size: 11px; color: var(--ink2); font-style: italic; }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero { display: grid; grid-template-columns: 300px 1fr; height: 280px; }
+
+    .hero-left {
+      padding: 32px 36px; display: flex; flex-direction: column;
+      justify-content: space-between; border-right: 0.5px solid var(--rule);
+    }
+    .hero-kicker {
+      font-size: 8px; letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 12px;
+    }
+    .hero-name {
+      font-family: var(--serif); font-size: 82px; font-weight: 900;
+      font-style: italic; line-height: 0.88; letter-spacing: -0.03em; color: var(--ink);
+    }
+    .hero-bio {
+      font-size: 11.5px; line-height: 1.82; color: var(--ink2);
+      font-style: italic; max-width: 240px;
+    }
+
+    .hero-right {
+      display: grid; grid-template-columns: 58% 42%;
+      background: var(--bg3); position: relative; overflow: hidden;
+    }
+    .hero-photo {
+      background: #1e1d1a; border-right: 0.5px solid var(--rule);
+      position: relative; overflow: hidden;
+      /* ← Replace with: background-image: url('your-photo.jpg'); background-size: cover; background-position: center; */
+    }
+    .hero-photo-2 {
+      background: #191917; position: relative; overflow: hidden;
+      /* ← Replace with: background-image: url('your-photo-2.jpg'); background-size: cover; background-position: center; */
+    }
+    /* Subtle inner grain on photo panels */
+    .hero-photo::after, .hero-photo-2::after {
+      content: ''; position: absolute; inset: 0; opacity: 0.06;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 80px 80px;
+    }
+    .photo-caption {
+      position: absolute; bottom: 10px; left: 14px;
+      font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(240,237,230,0.18); z-index: 2;
+    }
+    .photo-caption-r {
+      position: absolute; bottom: 10px; right: 14px;
+      font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(240,237,230,0.18); z-index: 2;
+    }
+
+    /* ============================================================
+       SECTION BAND (wide cinematic label rows)
+    ============================================================ */
+    .band {
+      height: 110px; background: var(--bg2);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 36px; position: relative; overflow: hidden;
+    }
+    .band-ghost {
+      font-family: var(--serif); font-size: 110px; font-weight: 900;
+      font-style: italic; color: rgba(240,237,230,0.025);
+      letter-spacing: -0.03em; position: absolute; right: 24px;
+      bottom: -22px; line-height: 1; white-space: nowrap; pointer-events: none;
+    }
+    .band-left { z-index: 2; }
+    .band-label {
+      font-size: 8px; letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 8px;
+    }
+    .band-title {
+      font-family: var(--serif); font-size: 26px; font-style: italic;
+      font-weight: 400; color: var(--ink); line-height: 1.1;
+    }
+    .band-right { z-index: 2; text-align: right; }
+    .band-count {
+      font-family: var(--serif); font-size: 48px; font-weight: 900;
+      color: rgba(240,237,230,0.06); line-height: 1;
+    }
+    .band-count-label {
+      font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink3);
+    }
+
+    /* ============================================================
+       TRAVEL GRID (pinterest-style)
+    ============================================================ */
+    .travel-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: 130px 95px;
+      gap: 2px;
+      background: rgba(255,255,250,0.04);
+      padding: 2px;
+    }
+    .tg {
+      position: relative; overflow: hidden;
+      background: var(--bg3);
+    }
+    /* Layout variation */
+    .tg-tall  { grid-row: span 2; }
+    .tg-wide  { grid-column: span 2; }
+
+    /* Unique tones per cell to simulate different photos */
+    .tg:nth-child(1) { background: #1a1a17; }
+    .tg:nth-child(2) { background: #1d1c19; }
+    .tg:nth-child(3) { background: #161614; }
+    .tg:nth-child(4) { background: #201f1b; }
+    .tg:nth-child(5) { background: #191918; }
+    .tg:nth-child(6) { background: #1b1b18; }
+    .tg:nth-child(7) { background: #1e1d1a; }
+    .tg:nth-child(8) { background: #171715; }
+
+    /* Gradient overlay on each cell */
+    .tg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 55%);
+    }
+
+    /* ↓ To add a real photo to any cell, add inline style:
+         style="background-image: url('photos/tokyo.jpg'); background-size: cover; background-position: center;"
+       to the .tg div */
+
+    .tg-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 8px 10px; z-index: 2;
+    }
+    .tg-place {
+      font-size: 10px; color: rgba(240,237,230,0.85);
+      font-style: italic; line-height: 1.2;
+    }
+    .tg-note {
+      font-size: 8px; letter-spacing: 0.06em;
+      color: rgba(240,237,230,0.38); margin-top: 2px;
+    }
+
+    /* ============================================================
+       TWO COLUMN BODY
+    ============================================================ */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; }
+    .col-l    { border-right: 0.5px solid var(--rule); }
+
+    .sb { padding: 24px 36px 28px; }
+    .sb + .sb { border-top: 0.5px solid var(--rule); }
+
+    .sl {
+      font-size: 8px; letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 18px;
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .sl span { font-size: 8px; color: var(--ink4); letter-spacing: 0.1em; }
+
+    /* Shelf rows */
+    .sr {
+      display: flex; align-items: baseline; gap: 10px;
+      padding: 7px 0; border-bottom: 0.5px solid rgba(255,255,250,0.05);
+    }
+    .sr:last-child { border-bottom: none; }
+    .srat { font-size: 9px; color: var(--accent); opacity: 0.75; min-width: 12px; }
+    .sti  { font-size: 12px; color: var(--ink); flex: 1; line-height: 1.35; font-style: italic; }
+    .sme  { font-size: 8.5px; color: var(--ink3); letter-spacing: 0.06em; white-space: nowrap; }
+
+    /* PR rows */
+    .pr-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 8px 0; border-bottom: 0.5px solid rgba(255,255,250,0.05);
+    }
+    .pr-row:last-child { border-bottom: none; }
+    .prl  { font-size: 11.5px; color: var(--ink2); font-style: italic; }
+    .prv  { font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--ink); }
+    .pru  { font-size: 8.5px; color: var(--ink3); margin-left: 3px; }
+
+    /* Quote blocks */
+    .qb {
+      padding: 13px 0; border-bottom: 0.5px solid rgba(255,255,250,0.05);
+    }
+    .qb:last-child { border-bottom: none; }
+    .qt {
+      font-family: var(--serif); font-size: 13px; font-style: italic;
+      color: var(--ink); line-height: 1.6; margin-bottom: 6px;
+    }
+    .qs {
+      font-size: 8px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--ink3);
+    }
+
+    /* ============================================================
+       BUILDING SECTION
+    ============================================================ */
+    .building { display: grid; grid-template-columns: 300px 1fr; }
+
+    .building-left {
+      padding: 32px 36px; border-right: 0.5px solid var(--rule);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .building-label {
+      font-size: 8px; letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 14px;
+    }
+    .building-title {
+      font-family: var(--serif); font-size: 32px; font-style: italic;
+      font-weight: 700; color: var(--ink); line-height: 1.1; margin-bottom: 14px;
+    }
+    .building-desc {
+      font-size: 11.5px; line-height: 1.8; color: var(--ink2); font-style: italic;
+    }
+    .building-status {
+      display: inline-flex; align-items: center; gap: 7px;
+      margin-top: 20px;
+    }
+    .status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); opacity: 0.8;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50%       { opacity: 0.3; transform: scale(0.7); }
+    }
+    .status-text {
+      font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink3);
+    }
+
+    .building-right {
+      padding: 32px 36px; display: grid;
+      grid-template-columns: 1fr 1fr; gap: 2px;
+      background: var(--bg);
+    }
+    .building-stat {
+      background: var(--bg2); padding: 20px 22px;
+    }
+    .bs-label {
+      font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 8px;
+    }
+    .bs-value {
+      font-family: var(--serif); font-size: 13px; font-style: italic;
+      color: var(--ink2); line-height: 1.4;
+    }
+
+    /* ============================================================
+       CREATIVE TRIPTYCH
+    ============================================================ */
+    .triptych { display: grid; grid-template-columns: repeat(3, 1fr); height: 130px; }
+    .tp {
+      background: var(--bg2); border-right: 0.5px solid var(--rule);
+      position: relative; overflow: hidden;
+      display: flex; align-items: flex-end; padding: 14px 18px;
+      transition: background 0.3s;
+    }
+    .tp:last-child { border-right: none; }
+    .tp:hover { background: var(--bg3); }
+    .tp2 { background: #131311; }
+    .tp3 { background: #161615; }
+    .tp-ghost {
+      position: absolute; top: -14px; right: -6px;
+      font-family: var(--serif); font-size: 80px; font-weight: 900;
+      font-style: italic; color: rgba(240,237,230,0.025); line-height: 1;
+      pointer-events: none;
+    }
+    .tp-content { z-index: 2; }
+    .tp-label {
+      font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--ink3); margin-bottom: 4px;
+    }
+    .tp-name {
+      font-family: var(--serif); font-size: 14px;
+      font-style: italic; color: var(--ink2);
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 36px;
+    }
+    .fn {
+      font-size: 8.5px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--ink3);
+    }
+    .fl { display: flex; gap: 22px; }
+    .fl a {
+      font-size: 8.5px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--ink3);
+      transition: color 0.2s;
+    }
+    .fl a:hover { color: var(--ink); }
+
+    /* ============================================================
+       ANIMATIONS — subtle fade-in on load
+    ============================================================ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    nav       { animation: fadeUp 0.5s ease both; }
+    .currently{ animation: fadeUp 0.5s 0.1s ease both; }
+    .hero     { animation: fadeUp 0.6s 0.15s ease both; }
+
+    /* ============================================================
+       RESPONSIVE — basic mobile fallback
+    ============================================================ */
+    @media (max-width: 720px) {
+      .hero         { grid-template-columns: 1fr; height: auto; }
+      .hero-right   { height: 200px; }
+      .hero-name    { font-size: 60px; }
+      .two-col      { grid-template-columns: 1fr; }
+      .col-l        { border-right: none; border-bottom: 0.5px solid var(--rule); }
+      .currently    { grid-template-columns: 1fr 1fr; }
+      .ci           { border-bottom: 0.5px solid var(--rule); }
+      .building     { grid-template-columns: 1fr; }
+      .building-left{ border-right: none; border-bottom: 0.5px solid var(--rule); }
+      .travel-grid  { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 110px); }
+      .tg-tall      { grid-row: span 1; }
+      .tg-wide      { grid-column: span 1; }
+      .triptych     { grid-template-columns: 1fr; height: auto; }
+      .tp           { height: 80px; }
+      .n-links      { display: none; }
+      .sb           { padding: 20px 20px 24px; }
+      nav           { padding: 16px 20px; }
+      .band         { padding: 0 20px; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="grain"></div>
+
+<div class="site">
+
+  <!-- ============================================================
+       NAV
+  ============================================================ -->
+  <nav>
+    <span class="n-name">Richley.</span>
+    <div class="n-links">
+      <a href="#shelf">Shelf</a>
+      <a href="#training">Training</a>
+      <a href="#travel">Travel</a>
+      <a href="#building">Building</a>
+      <a href="#creative">Creative</a>
+    </div>
+  </nav>
+  <hr>
+
+  <!-- ============================================================
+       CURRENTLY STRIP
+       Edit the .cv values to update what you're doing right now
+  ============================================================ -->
+  <div class="currently">
+    <div class="ci">
+      <div class="cl">Reading</div>
+      <!-- ↓ Edit this -->
+      <div class="cv">Zen & the Art of Motorcycle Maintenance</div>
+    </div>
+    <div class="ci">
+      <div class="cl">Watching</div>
+      <!-- ↓ Edit this -->
+      <div class="cv">Cowboy Bebop</div>
+    </div>
+    <div class="ci">
+      <div class="cl">Training</div>
+      <!-- ↓ Edit this -->
+      <div class="cv">Gym & Football</div>
+    </div>
+    <div class="ci">
+      <div class="cl">Obsessing Over</div>
+      <!-- ↓ Edit this -->
+      <div class="cv">Flow state & expressing oneself</div>
+    </div>
+  </div>
+  <hr>
+
+  <!-- ============================================================
+       HERO
+       Replace the .hero-photo divs with background-image to add photos
+  ============================================================ -->
+  <div class="hero">
+    <div class="hero-left">
+      <div>
+        <div class="hero-kicker">Sydney, Australia</div>
+        <div class="hero-name">Richley.</div>
+      </div>
+      <div class="hero-bio">
+        Interested in things that get better with time and attention — training, reading, watching, making.
+      </div>
+    </div>
+    <div class="hero-right">
+      <!-- ↓ Add your photo: style="background-image: url('photos/you.jpg'); background-size: cover; background-position: center;" -->
+      <div class="hero-photo">
+        <span class="photo-caption">Sydney, AU</span>
+      </div>
+      <!-- ↓ Add your photo: style="background-image: url('photos/you-2.jpg'); background-size: cover; background-position: center;" -->
+      <div class="hero-photo-2">
+        <span class="photo-caption-r">2025 ↗</span>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <!-- ============================================================
+       SHELF SECTION
+  ============================================================ -->
+  <div class="band" id="shelf">
+    <div class="band-left">
+      <div class="band-label">Section</div>
+      <div class="band-title">Shelf</div>
+    </div>
+    <div class="band-right">
+      <div class="band-count">03</div>
+      <!-- ↓ Update this number as you add more sections to the shelf -->
+      <div class="band-count-label">Sections</div>
+    </div>
+    <div class="band-ghost">Shelf</div>
+  </div>
+  <hr>
+
+  <div class="two-col">
+    <div class="col-l">
+
+      <!-- BOOKS -->
+      <div class="sb">
+        <div class="sl">Books <span>Reading log</span></div>
+
+        <!-- ↓ Copy a .sr block to add a new book. ★ = finished, — = reading/dropped -->
+        <div class="sr">
+          <span class="srat">—</span>
+          <span class="sti">Zen & the Art of Motorcycle Maintenance — Robert Pirsig</span>
+          <span class="sme">Now</span>
+        </div>
+        <div class="sr">
+          <span class="srat">★</span>
+          <span class="sti">Add a finished book</span>
+          <span class="sme">2024</span>
+        </div>
+        <div class="sr">
+          <span class="srat">★</span>
+          <span class="sti">Add another book</span>
+          <span class="sme">2024</span>
+        </div>
+      </div>
+
+      <!-- ANIME -->
+      <div class="sb">
+        <div class="sl">Anime <span>Watching log</span></div>
+        <div class="sr">
+          <span class="srat">—</span>
+          <span class="sti">Cowboy Bebop</span>
+          <span class="sme">Now</span>
+        </div>
+        <div class="sr">
+          <span class="srat">★</span>
+          <span class="sti">Add an all-timer</span>
+          <span class="sme">—</span>
+        </div>
+        <div class="sr">
+          <span class="srat">★</span>
+          <span class="sti">Add another favourite</span>
+          <span class="sme">—</span>
+        </div>
+      </div>
+
+    </div>
+    <div>
+
+      <!-- FILMS & SHOWS -->
+      <div class="sb">
+        <div class="sl">Films & Shows <span>Watching log</span></div>
+        <div class="sr">
+          <span class="srat">★</span>
+          <span class="sti">Add a favourite film</span>
+          <span class="sme">—</span>
+        </div>
+        <div class="sr">
+          <span class="srat">★</span>
+          <span class="sti">Add another</span>
+          <span class="sme">—</span>
+        </div>
+        <div class="sr">
+          <span class="srat">—</span>
+          <span class="sti">Currently watching</span>
+          <span class="sme">Now</span>
+        </div>
+      </div>
+
+      <!-- QUOTES -->
+      <div class="sb">
+        <div class="sl">Quotes <span>Collected</span></div>
+
+        <!-- ↓ Copy a .qb block to add a new quote -->
+        <div class="qb">
+          <div class="qt">"No man ever steps in the same river twice, for it's not the same river and he's not the same man."</div>
+          <div class="qs">Heraclitus</div>
+        </div>
+        <div class="qb">
+          <div class="qt">"Add a quote that stuck with you."</div>
+          <div class="qs">Source</div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  <hr>
+
+  <!-- ============================================================
+       TRAINING SECTION
+  ============================================================ -->
+  <div class="band" id="training">
+    <div class="band-left">
+      <div class="band-label">Section</div>
+      <div class="band-title">Training</div>
+    </div>
+    <div class="band-right">
+      <div class="band-count">PRs</div>
+      <div class="band-count-label">Personal records</div>
+    </div>
+    <div class="band-ghost">Training</div>
+  </div>
+  <hr>
+
+  <div class="two-col">
+    <div class="col-l">
+      <div class="sb">
+        <div class="sl">Lifts <span>Personal records</span></div>
+
+        <!-- ↓ Update the .prv values with your numbers -->
+        <div class="pr-row">
+          <span class="prl">Squat</span>
+          <div><span class="prv">—</span><span class="pru">kg</span></div>
+        </div>
+        <div class="pr-row">
+          <span class="prl">Bench Press</span>
+          <div><span class="prv">—</span><span class="pru">kg</span></div>
+        </div>
+        <div class="pr-row">
+          <span class="prl">Deadlift</span>
+          <div><span class="prv">—</span><span class="pru">kg</span></div>
+        </div>
+        <div class="pr-row">
+          <span class="prl">Overhead Press</span>
+          <div><span class="prv">—</span><span class="pru">kg</span></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="sb">
+        <div class="sl">Log <span>Notes & updates</span></div>
+
+        <!-- ↓ Add occasional notes here — physique updates, program changes etc. Format: date + note -->
+        <div class="sr">
+          <span class="srat">—</span>
+          <span class="sti">Current program — Gym & Football</span>
+          <span class="sme">Now</span>
+        </div>
+        <div class="sr">
+          <span class="srat">—</span>
+          <span class="sti">Add a training note or milestone</span>
+          <span class="sme">2025</span>
+        </div>
+        <div class="sr">
+          <span class="srat">—</span>
+          <span class="sti">Add another note</span>
+          <span class="sme">2025</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <!-- ============================================================
+       TRAVEL SECTION
+  ============================================================ -->
+  <div class="band" id="travel">
+    <div class="band-left">
+      <div class="band-label">Section</div>
+      <div class="band-title">Travel & Photography</div>
+    </div>
+    <div class="band-right">
+      <!-- ↓ Update this as you add places -->
+      <div class="band-count">00</div>
+      <div class="band-count-label">Places visited</div>
+    </div>
+    <div class="band-ghost">Travel</div>
+  </div>
+  <hr>
+
+  <!--
+    TRAVEL GRID — Pinterest-style mixed frames
+    To add a real photo to any cell, add to the .tg div:
+      style="background-image: url('photos/tokyo.jpg'); background-size: cover; background-position: center;"
+    Cells with class tg-tall span 2 rows (portrait). tg-wide spans 2 columns (landscape).
+  -->
+  <div class="travel-grid">
+    <div class="tg tg-tall">
+      <div class="tg-info">
+        <div class="tg-place">Add a place</div>
+        <div class="tg-note">A note on what it felt like</div>
+      </div>
+    </div>
+    <div class="tg">
+      <div class="tg-info"><div class="tg-place">Add a place</div></div>
+    </div>
+    <div class="tg">
+      <div class="tg-info"><div class="tg-place">Add a place</div></div>
+    </div>
+    <div class="tg tg-wide">
+      <div class="tg-info">
+        <div class="tg-place">A wider shot — open road, landscape, city</div>
+      </div>
+    </div>
+    <div class="tg">
+      <div class="tg-info"><div class="tg-place">Add a place</div></div>
+    </div>
+    <div class="tg">
+      <div class="tg-info"><div class="tg-place">Add a place</div></div>
+    </div>
+    <div class="tg">
+      <div class="tg-info"><div class="tg-place">Add a place</div></div>
+    </div>
+    <div class="tg">
+      <div class="tg-info"><div class="tg-place">Add a place</div></div>
+    </div>
+  </div>
+  <hr>
+
+  <!-- ============================================================
+       BUILDING SECTION — Inspired Visuals Club
+  ============================================================ -->
+  <div class="band" id="building">
+    <div class="band-left">
+      <div class="band-label">Section</div>
+      <div class="band-title">Building</div>
+    </div>
+    <div class="band-right">
+      <div class="band-count">01</div>
+      <div class="band-count-label">Active projects</div>
+    </div>
+    <div class="band-ghost">Building</div>
+  </div>
+  <hr>
+
+  <div class="building">
+    <div class="building-left">
+      <div>
+        <div class="building-label">Project 01</div>
+        <div class="building-title">Inspired Visuals Club</div>
+        <!-- ↓ Edit this description as the project evolves -->
+        <div class="building-desc">
+          A project exploring visual inspiration, curation, and the art of seeing. Still figuring out what it becomes.
+        </div>
+      </div>
+      <div class="building-status">
+        <div class="status-dot"></div>
+        <span class="status-text">In progress</span>
+      </div>
+    </div>
+    <div class="building-right">
+      <!-- ↓ Update these as the project develops -->
+      <div class="building-stat">
+        <div class="bs-label">Stage</div>
+        <div class="bs-value">Early concept</div>
+      </div>
+      <div class="building-stat">
+        <div class="bs-label">Started</div>
+        <div class="bs-value">2025</div>
+      </div>
+      <div class="building-stat">
+        <div class="bs-label">What it is</div>
+        <div class="bs-value">Still being defined</div>
+      </div>
+      <div class="building-stat">
+        <div class="bs-label">Next step</div>
+        <div class="bs-value">Add yours here</div>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <!-- ============================================================
+       CREATIVE SECTION
+  ============================================================ -->
+  <div class="triptych" id="creative">
+    <div class="tp">
+      <div class="tp-ghost">W</div>
+      <div class="tp-content">
+        <div class="tp-label">Creative</div>
+        <div class="tp-name">Writing</div>
+      </div>
+    </div>
+    <div class="tp tp2">
+      <div class="tp-ghost">P</div>
+      <div class="tp-content">
+        <div class="tp-label">Creative</div>
+        <div class="tp-name">Photography</div>
+      </div>
+    </div>
+    <div class="tp tp3">
+      <div class="tp-ghost">+</div>
+      <div class="tp-content">
+        <div class="tp-label">Creative</div>
+        <div class="tp-name">Start something</div>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <!-- ============================================================
+       FOOTER
+       Update email and Instagram handle
+  ============================================================ -->
+  <footer>
+    <span class="fn">Sydney, AU — 2025</span>
+    <div class="fl">
+      <!-- ↓ Replace 'yourhandle' with your Instagram username -->
+      <a href="https://instagram.com/yourhandle" target="_blank" rel="noopener">Instagram</a>
+      <!-- ↓ Replace 'hello@youremail.com' with your email -->
+      <a href="mailto:hello@youremail.com">Contact</a>
+    </div>
+  </footer>
+
+</div><!-- /site -->
+</body>
+</html>
