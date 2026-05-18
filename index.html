@@ -73,19 +73,19 @@
     .n-links a:hover { color: var(--ink); }
 
     /* ============================================================
-       CURRENTLY STRIP
+       CURRENTLY STRIP — dark
     ============================================================ */
-    .currently { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .currently { display: grid; grid-template-columns: repeat(4, 1fr); background: #111110; }
     .ci {
-      padding: 10px 20px 10px 36px; border-right: 0.5px solid var(--rule);
+      padding: 10px 20px 10px 36px; border-right: 0.5px solid rgba(255,255,250,0.07);
     }
     .ci:not(:first-child) { padding-left: 20px; }
     .ci:last-child { border-right: none; }
     .cl {
       font-size: 8px; letter-spacing: 0.22em; text-transform: uppercase;
-      color: var(--ink3); margin-bottom: 3px;
+      color: rgba(240,237,230,0.35); margin-bottom: 3px;
     }
-    .cv { font-size: 11px; color: var(--ink2); font-style: italic; }
+    .cv { font-size: 11px; color: rgba(240,237,230,0.75); font-style: italic; }
 
     /* ============================================================
        HERO
@@ -369,9 +369,11 @@
     .fl a:hover { color: var(--ink); }
 
     /* ============================================================
-       TRAINING CALENDAR
+       TRAINING CALENDAR — light
     ============================================================ */
-    .cal-wrap { padding: 24px 36px 28px; }
+    .cal-wrap { background: var(--bg); padding: 24px 36px 28px; }
+    .cal-wrap .sl { color: var(--ink2); }
+    .cal-wrap .sl span { color: var(--ink3); }
     .cal-header {
       display: flex; justify-content: space-between; align-items: baseline;
       margin-bottom: 16px;
@@ -440,9 +442,145 @@
       color: var(--ink2); text-align: right;
     }
     .cal-streak span { color: var(--accent); font-style: italic; font-size: 11px; }
+
     /* ============================================================
-       ANIMATIONS — subtle fade-in on load
+       MUSIC SECTION
     ============================================================ */
+    .music-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      background: var(--rule);
+      padding: 2px;
+    }
+    .album {
+      background: var(--bg2);
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .album-art {
+      width: 100%; aspect-ratio: 1;
+      background: var(--bg3);
+      position: relative; overflow: hidden;
+      flex-shrink: 0;
+      /* ↓ Add photo: style="background-image: url('photos/album.jpg'); background-size: cover; background-position: center;" */
+    }
+    /* Unique placeholder tones */
+    .album:nth-child(1) .album-art { background: #d8d4cb; }
+    .album:nth-child(2) .album-art { background: #cfc9be; }
+    .album:nth-child(3) .album-art { background: #d4cec3; }
+    .album:nth-child(4) .album-art { background: #c8c2b7; }
+    .album:nth-child(5) .album-art { background: #d2ccc1; }
+    .album:nth-child(6) .album-art { background: #cac4b9; }
+    .album:nth-child(7) .album-art { background: #dedad1; }
+    .album:nth-child(8) .album-art { background: #ccc6bb; }
+    .album-art-num {
+      position: absolute; bottom: 8px; right: 10px;
+      font-family: var(--serif); font-size: 28px; font-weight: 900; font-style: italic;
+      color: rgba(26,24,20,0.08); line-height: 1;
+    }
+    .album-info { padding: 12px 14px 16px; flex: 1; }
+    .album-title {
+      font-family: var(--serif); font-size: 13px; font-style: italic;
+      color: var(--ink); line-height: 1.3; margin-bottom: 3px;
+    }
+    .album-artist {
+      font-size: 10px; color: var(--ink2); margin-bottom: 8px; letter-spacing: 0.02em;
+    }
+    .album-rating {
+      font-size: 9px; color: var(--accent); letter-spacing: 0.04em; margin-bottom: 6px;
+    }
+    .album-note {
+      font-size: 10px; color: var(--ink3); line-height: 1.6; font-style: italic;
+    }
+    /* ============================================================
+       DARK BAND VARIANT
+    ============================================================ */
+    .band-dark {
+      background: #111110 !important;
+    }
+    .band-dark .band-label { color: rgba(240,237,230,0.3); }
+    .band-dark .band-title { color: #f0ede6; }
+    .band-dark .band-count { color: rgba(240,237,230,0.06); }
+    .band-dark .band-count-label { color: rgba(240,237,230,0.3); }
+    .band-dark .band-ghost { color: rgba(240,237,230,0.025); }
+
+    /* ============================================================
+       MUSIC SECTION — dark
+    ============================================================ */
+    .music-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      background: rgba(255,255,250,0.04);
+      padding: 2px;
+    }
+    .album {
+      background: #161614;
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .album-art {
+      width: 100%; aspect-ratio: 1;
+      background: #1c1c1a;
+      position: relative; overflow: hidden;
+      flex-shrink: 0;
+      /* ↓ Add photo: style="background-image: url('photos/album.jpg'); background-size: cover; background-position: center;" */
+    }
+    .album:nth-child(1) .album-art { background: #1a1a17; }
+    .album:nth-child(2) .album-art { background: #1d1c19; }
+    .album:nth-child(3) .album-art { background: #191917; }
+    .album:nth-child(4) .album-art { background: #1b1b18; }
+    .album:nth-child(5) .album-art { background: #181816; }
+    .album:nth-child(6) .album-art { background: #1c1b18; }
+    .album:nth-child(7) .album-art { background: #1a1918; }
+    .album:nth-child(8) .album-art { background: #1e1d1a; }
+    .album-art-num {
+      position: absolute; bottom: 8px; right: 10px;
+      font-family: var(--serif); font-size: 28px; font-weight: 900; font-style: italic;
+      color: rgba(240,237,230,0.06); line-height: 1;
+    }
+    .album-info { padding: 12px 14px 16px; flex: 1; }
+    .album-title {
+      font-family: var(--serif); font-size: 13px; font-style: italic;
+      color: #f0ede6; line-height: 1.3; margin-bottom: 3px;
+    }
+    .album-artist {
+      font-size: 10px; color: rgba(240,237,230,0.55); margin-bottom: 8px; letter-spacing: 0.02em;
+    }
+    .album-rating {
+      font-size: 9px; color: #c9a96e; letter-spacing: 0.04em; margin-bottom: 6px;
+    }
+    .album-note {
+      font-size: 10px; color: rgba(240,237,230,0.4); line-height: 1.6; font-style: italic;
+    }
+
+    /* ============================================================
+       DARK BUILDING SECTION
+    ============================================================ */
+    .building-dark { background: #111110; }
+    .building-dark .building-left {
+      border-right-color: rgba(255,255,250,0.07);
+    }
+    .building-dark .building-label { color: rgba(240,237,230,0.3); }
+    .building-dark .building-title { color: #f0ede6; }
+    .building-dark .building-desc { color: rgba(240,237,230,0.55); }
+    .building-dark .status-text { color: rgba(240,237,230,0.3); }
+    .building-dark .building-right { background: #111110; }
+    .building-dark .building-stat { background: #1a1a17; }
+    .building-dark .bs-label { color: rgba(240,237,230,0.3); }
+    .building-dark .bs-value { color: rgba(240,237,230,0.65); }
+
+    /* ============================================================
+       DARK FOOTER
+    ============================================================ */
+    .footer-dark {
+      background: #111110;
+      border-top: 0.5px solid rgba(255,255,250,0.07);
+    }
+    .footer-dark .fn { color: rgba(240,237,230,0.3); }
+    .footer-dark .fl a { color: rgba(240,237,230,0.3); }
+    .footer-dark .fl a:hover { color: #f0ede6; }
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -490,8 +628,9 @@
     <div class="n-links">
       <a href="#shelf">Shelf</a>
       <a href="#training">Training</a>
-      <a href="#travel">Travel</a>
       <a href="#building">Building</a>
+      <a href="#travel">Travel</a>
+      <a href="#music">Music</a>
       <a href="#creative">Creative</a>
     </div>
   </nav>
@@ -540,11 +679,14 @@
       </div>
     </div>
     <div class="hero-right">
-      <!-- ↓ Add your photo: style="background-image: url('photos/you.jpg'); background-size: cover; background-position: center;" -->
+      <!-- ↓ PHOTO 1: Replace the background colour with your image.
+           Add to this div: style="background-image: url('photos/you.jpg'); background-size: cover; background-position: center top;"
+           Put your photo file in a /photos/ folder in your GitHub repo. -->
       <div class="hero-photo">
         <span class="photo-caption">Sydney, AU</span>
       </div>
-      <!-- ↓ Add your photo: style="background-image: url('photos/you-2.jpg'); background-size: cover; background-position: center;" -->
+      <!-- ↓ PHOTO 2: Same as above — add a second photo here.
+           style="background-image: url('photos/you-2.jpg'); background-size: cover; background-position: center;" -->
       <div class="hero-photo-2">
         <span class="photo-caption-r">2025 ↗</span>
       </div>
@@ -677,8 +819,6 @@
     <div class="col-l">
       <div class="sb">
         <div class="sl">Lifts <span>Personal records</span></div>
-
-        <!-- ↓ Update the .prv values with your numbers -->
         <div class="pr-row">
           <span class="prl">Squat</span>
           <div><span class="prv">—</span><span class="pru">kg</span></div>
@@ -696,7 +836,6 @@
           <div><span class="prv">—</span><span class="pru">kg</span></div>
         </div>
       </div>
-
       <div class="sb">
         <div class="sl">Log <span>Notes & updates</span></div>
         <div class="sr">
@@ -731,14 +870,92 @@
             <div class="cal-streak" id="cal-streak"></div>
           </div>
         </div>
-
         <div class="cal-grid" id="cal-grid"></div>
-
         <div class="cal-legend">
           <div class="legend-item"><div class="legend-dot gym"></div><span class="legend-label">Gym</span></div>
           <div class="legend-item"><div class="legend-dot football"></div><span class="legend-label">Football</span></div>
           <div class="legend-item"><div class="legend-dot sport"></div><span class="legend-label">Sport</span></div>
         </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <!-- ============================================================
+       BUILDING SECTION — dark
+  ============================================================ -->
+  <div class="band band-dark" id="building">
+    <div class="band-left">
+      <div class="band-label">Section</div>
+      <div class="band-title">Building</div>
+    </div>
+    <div class="band-right">
+      <div class="band-count">02</div>
+      <div class="band-count-label">Active projects</div>
+    </div>
+    <div class="band-ghost">Building</div>
+  </div>
+
+  <div class="building building-dark">
+    <div class="building-left">
+      <div>
+        <div class="building-label">Project 01</div>
+        <div class="building-title">Personal Brand</div>
+        <div class="building-desc">Intentional living. @richley.186</div>
+      </div>
+      <div class="building-status">
+        <div class="status-dot"></div>
+        <span class="status-text">In progress</span>
+      </div>
+    </div>
+    <div class="building-right">
+      <div class="building-stat">
+        <div class="bs-label">Stage</div>
+        <div class="bs-value">Development</div>
+      </div>
+      <div class="building-stat">
+        <div class="bs-label">Started</div>
+        <div class="bs-value">2025</div>
+      </div>
+      <div class="building-stat">
+        <div class="bs-label">What it is</div>
+        <div class="bs-value">Personal Instagram page designed to develop my marketing and social media skills, share my interests, document progress and creative endeavours.</div>
+      </div>
+      <div class="building-stat">
+        <div class="bs-label">Next step</div>
+        <div class="bs-value">Draft & create reels that I am proud of</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="building building-dark" style="border-top:0.5px solid rgba(255,255,250,0.07)">
+    <div class="building-left">
+      <div>
+        <div class="building-label">Project 02</div>
+        <div class="building-title">Inspired Visuals Club</div>
+        <div class="building-desc">A project exploring visual inspiration, curation, and the art of seeing.</div>
+      </div>
+      <div class="building-status">
+        <div class="status-dot"></div>
+        <span class="status-text">In progress</span>
+      </div>
+    </div>
+    <div class="building-right">
+      <div class="building-stat">
+        <div class="bs-label">Stage</div>
+        <div class="bs-value">Early concept</div>
+      </div>
+      <div class="building-stat">
+        <div class="bs-label">Started</div>
+        <div class="bs-value">2025</div>
+      </div>
+      <div class="building-stat">
+        <div class="bs-label">What it is</div>
+        <div class="bs-value">A creative world for people who see the same spirit in a mountain at dawn, a perfectly driven corner, a zen garden, and an athlete in total flow. A philosophy with a visual identity.</div>
+      </div>
+      <div class="building-stat">
+        <div class="bs-label">Next step</div>
+        <div class="bs-value">Write first essay, share</div>
       </div>
     </div>
   </div>
@@ -763,9 +980,8 @@
 
   <!--
     TRAVEL GRID — Pinterest-style mixed frames
-    To add a real photo to any cell, add to the .tg div:
-      style="background-image: url('photos/tokyo.jpg'); background-size: cover; background-position: center;"
-    Cells with class tg-tall span 2 rows (portrait). tg-wide spans 2 columns (landscape).
+    To add a photo: add style="background-image: url('photos/tokyo.jpg'); background-size: cover; background-position: center;"
+    to the .tg div. tg-tall = portrait (spans 2 rows). tg-wide = landscape (spans 2 cols).
   -->
   <div class="travel-grid">
     <div class="tg tg-tall">
@@ -801,103 +1017,61 @@
   <hr>
 
   <!-- ============================================================
-       BUILDING SECTION — Inspired Visuals Club
+       MUSIC SECTION — dark
   ============================================================ -->
-  <div class="band" id="building">
+  <div class="band band-dark" id="music">
     <div class="band-left">
       <div class="band-label">Section</div>
-      <div class="band-title">Building</div>
+      <div class="band-title">Music</div>
     </div>
     <div class="band-right">
-      <div class="band-count">01</div>
-      <div class="band-count-label">Active projects</div>
+      <!-- ↓ Update as you add albums -->
+      <div class="band-count">00</div>
+      <div class="band-count-label">Albums reviewed</div>
     </div>
-    <div class="band-ghost">Building</div>
+    <div class="band-ghost">Music</div>
   </div>
-  <hr>
 
-  <div class="building">
-    <div class="building-left">
-      <div>
-        <div class="building-label">Project 01</div>
-        <div class="building-title">Personal Brand</div>
-        <!-- ↓ Edit this description as the project evolves -->
-        <div class="building-desc">
-          Intentional living. @richley.186   
-        </div>
-      </div>
-      <div class="building-status">
-        <div class="status-dot"></div>
-        <span class="status-text">In progress</span>
-      </div>
-    </div>
-    <div class="building-right">
-      <!-- ↓ Update these as the project develops -->
-      <div class="building-stat">
-        <div class="bs-label">Stage</div>
-        <div class="bs-value">Development</div>
-      </div>
-      <div class="building-stat">
-        <div class="bs-label">Started</div>
-        <div class="bs-value">2025</div>
-      </div>
-      <div class="building-stat">
-        <div class="bs-label">What it is</div>
-        <div class="bs-value">Personal Instagram page designed to develop my marketing and social media skills, share my interets, document progress and creative endevours.</div>
-      </div>
-      <div class="building-stat">
-        <div class="bs-label">Next step</div>
-        <div class="bs-value">Draft & create reels that I am proud of</div>
+  <!--
+    MUSIC GRID — 4 columns, album art + review
+    To add album art: add style="background-image: url('photos/album.jpg'); background-size: cover; background-position: center;"
+    to the .album-art div. Rating: ★ per star out of 5. Copy a full .album block to add entries.
+  -->
+  <div class="music-grid">
+    <div class="album">
+      <div class="album-art"><span class="album-art-num">01</span></div>
+      <div class="album-info">
+        <div class="album-title">Add an album</div>
+        <div class="album-artist">Artist name</div>
+        <div class="album-rating">★★★★★</div>
+        <div class="album-note">A sentence or two on what it sounds like and why it matters to you.</div>
       </div>
     </div>
-  </div>
-  <hr>
-
-   <div class="band" id="building">
-    <div class="band-left">
-      <div class="band-label">Section</div>
-      <div class="band-title">Building</div>
-    </div>
-    <div class="band-right">
-      <div class="band-count">02</div>
-      <div class="band-count-label">Active projects</div>
-    </div>
-    <div class="band-ghost">Building</div>
-  </div>
-  <hr>
-
-  <div class="building">
-    <div class="building-left">
-      <div>
-        <div class="building-label">Project 02</div>
-        <div class="building-title">Inspired Visuals Club</div>
-        <!-- ↓ Edit this description as the project evolves -->
-        <div class="building-desc">
-          A project exploring visual inspiration, curation, and the art of seeing.
-        </div>
-      </div>
-      <div class="building-status">
-        <div class="status-dot"></div>
-        <span class="status-text">In progress</span>
+    <div class="album">
+      <div class="album-art"><span class="album-art-num">02</span></div>
+      <div class="album-info">
+        <div class="album-title">Add an album</div>
+        <div class="album-artist">Artist name</div>
+        <div class="album-rating">★★★★</div>
+        <div class="album-note">A sentence or two on what it sounds like and why it matters to you.</div>
       </div>
     </div>
-    <div class="building-right">
-      <!-- ↓ Update these as the project develops -->
-      <div class="building-stat">
-        <div class="bs-label">Stage</div>
-        <div class="bs-value">Early concept</div>
+    <div class="album">
+      <div class="album-art"><span class="album-art-num">03</span></div>
+      <div class="album-info">
+        <div class="album-title">Add an album</div>
+        <div class="album-artist">Artist name</div>
+        <div class="album-rating">★★★★</div>
+        <div class="album-note">A sentence or two on what it sounds like and why it matters to you.</div>
       </div>
-      <div class="building-stat">
-        <div class="bs-label">Started</div>
-        <div class="bs-value">2025</div>
-      </div>
-      <div class="building-stat">
-        <div class="bs-label">What it is</div>
-        <div class="bs-value">A creative world for people who see the same spirit in a mountain at dawn, a perfectly driven corner, a zen garden, and an athlete in total flow. A philosophy with a visual identity.</div>
-      </div>
-      <div class="building-stat">
-        <div class="bs-label">Next step</div>
-        <div class="bs-value">Write first essay, share</div>
+    </div>
+    <div class="album">
+      <div class="album-art"><span class="album-art-num">04</span></div>
+      <div class="album-info">
+        <div class="album-title">Add an album</div>
+        <div class="album-artist">Artist name</div>
+        <div class="album-rating">★★★</div>
+        <div class="album-note">A sentence or two on what it sounds like and why it matters to you.</div>
       </div>
     </div>
   </div>
@@ -929,18 +1103,14 @@
       </div>
     </div>
   </div>
-  <hr>
 
   <!-- ============================================================
-       FOOTER
-       Update email and Instagram handle
+       FOOTER — dark
   ============================================================ -->
-  <footer>
+  <footer class="footer-dark">
     <span class="fn">Sydney, AU — 2025</span>
     <div class="fl">
-      <!-- ↓ Replace 'yourhandle' with your Instagram username -->
       <a href="https://instagram.com/richley.186" target="_blank" rel="noopener">Instagram</a>
-      <!-- ↓ Replace 'hello@youremail.com' with your email -->
       <a href="mailto:hello@youremail.com">Contact</a>
     </div>
   </footer>
